@@ -1,7 +1,7 @@
 
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect, useRef } from 'react'
 import './App.css'
-import { useEffect } from 'react';
+import { } from 'react';
 
 function App() {
   const [length, setLength] = useState(8);
@@ -9,6 +9,10 @@ function App() {
   const [charAllowed, setCharAllowed] = useState(false);
   const [password, setPassword] = useState();
 
+  //useRef hook
+  const passwordRef = useRef(null);
+
+  //this is responsible for optimise when anything changes
   const passwordGenerator = useCallback(() => {
 
     let pass = "";
@@ -17,7 +21,7 @@ function App() {
     if (numAllowed) str += "0123456789";
     if (charAllowed) str += "!@#$%^&*(){}";
 
-    for (let i = 0; i <= length; i++) {
+    for (let i = 1; i <= length; i++) {
       let char = Math.floor(Math.random() * str.length + 1)
       //Get value in index number so convert in char... apply this
 
@@ -27,6 +31,18 @@ function App() {
 
   }, [length, numAllowed, charAllowed, setPassword]);
 
+  const copyPasswordToClipboard = useCallback(() => {
+    // for select by blur color
+    passwordRef.current?.select();
+
+    //for select the certen value
+    // passwordRef.current?.setSelectionRange(0, 5);
+
+    //copy password to clipboard
+    window.navigator.clipboard.writeText(password)
+  }, [password])
+
+  // Anythings changes in all of thems the run the program
   useEffect(() => {
     passwordGenerator()
   }, [length, numAllowed, charAllowed, passwordGenerator]);
@@ -36,14 +52,15 @@ function App() {
     <>
       <div className="container">
         <h1>Password Generator</h1>
-        <div className="">
+        <div className="input_field">
           <input
             value={password}
             type="text"
             placeholder='password'
             readOnly
+            ref={passwordRef}
           />
-          <button className="copy_btn">Copy</button>
+          <button className="copy_btn" onClick={copyPasswordToClipboard}>Copy</button>
         </div>
         <div className="selector">
           <div className="">

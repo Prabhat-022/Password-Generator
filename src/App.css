@@ -48,11 +48,12 @@
 .container {
   background-color: gray;
   padding: 1px 10px 20px;
+  border-radius: 10px;
 }
 
 
 .input_field input {
-  width: 80%;
+  width: 380px;
   height: 35px;
   outline: none;
   font-size: 20px;
@@ -62,8 +63,11 @@
 .input_field button {
   background-color: rgb(81, 81, 227);
   color: white;
-  width: 16%;
   font-weight: bold;
+  text-align: center;
+  width: 90px;
+  /* position:fixed */
+
 }
 
 .selector {

@@ -9,6 +9,8 @@ function App() {
   const [charAllowed, setCharAllowed] = useState(false);
   const [password, setPassword] = useState();
 
+  const [cpy, setCpy] = useState("Copy");
+
   //useRef hook
   const passwordRef = useRef(null);
 
@@ -32,6 +34,8 @@ function App() {
   }, [length, numAllowed, charAllowed, setPassword]);
 
   const copyPasswordToClipboard = useCallback(() => {
+    setCpy("Copied")
+
     // for select by blur color
     passwordRef.current?.select();
 
@@ -40,11 +44,14 @@ function App() {
 
     //copy password to clipboard
     window.navigator.clipboard.writeText(password)
+
   }, [password])
 
+ 
   // Anythings changes in all of thems the run the program
   useEffect(() => {
-    passwordGenerator()
+    passwordGenerator();
+    setCpy('Copy');
   }, [length, numAllowed, charAllowed, passwordGenerator]);
 
 
@@ -60,7 +67,7 @@ function App() {
             readOnly
             ref={passwordRef}
           />
-          <button className="copy_btn" onClick={copyPasswordToClipboard}>Copy</button>
+          <button className="copy_btn" onClick={copyPasswordToClipboard} >{cpy}</button>
         </div>
         <div className="selector">
           <div className="">
